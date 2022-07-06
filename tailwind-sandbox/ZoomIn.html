@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<!-- <script src="../Downloads/watermark.js"></script> -->
+<style>
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  vertical-align: middle;
+}
+
+.header-image {
+background-position: center;
+background-repeat: no-repeat;
+position: relative;
+background-size: cover;
+margin-top: -10px;
+}
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Hide the images by default */
+.mySlides {
+  right: 50rem;
+  top: 23.5px;
+  width: 30%;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+
+/* Six columns side by side */
+.column {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  width: 10%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+* {box-sizing: border-box;}
+
+.img-zoom-container {
+  position: absolute;
+  right: 50rem;
+  top: 93.5px;
+  width: 30%;
+}
+
+
+.img-zoom-lens {
+  position: absolute;
+  /*set the size of the lens:*/
+  width: 90px;
+  height: 90px;
+}
+
+.img-zoom-result {
+  /*set the size of the result div:*/
+  top:50px;
+  right:50px !important;
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  margin: 2.7rem 5rem;
+}
+.watermark {
+  opacity: 0.2;
+  background: '#ccc';
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  right: 50% im !important;
+}
+</style>
+<header>
+  <img class= "header-image" src="./header.png" style="width:100%">
+
+</header>
+<body>
+<div class="container">
+   <div class="row">
+    <div class="column">Front
+      <img class="demo cursor" src="./front.png" style="width:100%" onclick="currentSlide(1)" alt="The Woods">
+    </div>
+    <div class="column">Kitchen
+      <img class="demo cursor" src="./Kitchen.png" style="width:100%" onclick="currentSlide(2)" alt="Cinque Terre">
+    </div>
+    <div class="column">Bedroom
+      <img class="demo cursor" src="./Bedroom.png" style="width:100%" onclick="currentSlide(3)" alt="Mountains and fjords">
+    </div>
+    <div class="column">Bathroom
+      <img class="demo cursor" src="./Bath.png" style="width:100%" onclick="currentSlide(4)" alt="Northern Lights">
+    </div>
+    <div class="column">Living
+      <img class="demo cursor" src="./living.png" style="width:100%" onclick="currentSlide(5)" alt="Nature and sunrise">
+    </div>    
+    <div class="column">Balcony
+      <img class="demo cursor" src="https://ap.rdcpix.com/d3ccf7e54a20df01beac3eb5f5745611l-m924752187o.jpg" style="width:100%" onclick="currentSlide(6)" alt="Snowy Mountains">
+    </div>
+  </div>
+</div>
+<div class="mySlides">
+  <div class="img-zoom-container" >
+  <img id="myimage" src="./front.png" width="800" height="540" alt="front">
+<div id="myresult" class="img-zoom-result" width="800" height="540"></div>
+</div>
+</div>
+<div class="mySlides">
+  <div class="img-zoom-container" >
+  <img id="myimage" src="./Kitchen.png" width="800" height="540" alt="kitchen">
+<div id="myresult" class="img-zoom-result" width="800" height="540"></div>
+</div>
+</div>
+<div class="mySlides">
+  <div class="img-zoom-container" >
+  <img id="myimage" src="./Bedroom.png" width="800" height="540" alt="bedroom">
+<div id="myresult" class="img-zoom-result" width="800" height="540"></div>
+</div>
+</div>
+
+</div>
+ 
+</div>
+
+<script>          
+
+
+let slideIndex = 1;
+showSlides(slideIndex);
+
+let image = document.getElementById("myimage");
+let output = document.getElementById('myresult');
+
+image.addEventListener('onmouseenter',(e)=>{
+    output.style.display = "block";
+})
+
+image.addEventListener('onmouseleave',(e)=>{
+    output.style.display ="none";
+})
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  //captionText.innerHTML = dots[slideIndex-1].alt;
+}
+
+
+function imageZoom(imgID, resultID) {
+  var img, lens, result, cx, cy;
+  img = document.getElementById(imgID);
+  result = document.getElementById(resultID);
+  /* Create lens: */
+  lens = document.createElement("DIV");
+  lens.setAttribute("class", "img-zoom-lens");
+  /* Insert lens: */
+  img.parentElement.insertBefore(lens, img);
+  /* Calculate the ratio between result DIV and lens: */
+  cx = result.offsetWidth / lens.offsetWidth;
+  cy = result.offsetHeight / lens.offsetHeight;
+  /* Set background properties for the result DIV */
+  result.style.backgroundImage = "url('" + img.src + "')";
+  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+    /* Execute a function when someone moves the cursor over the image, or the lens: */
+  lens.addEventListener("mousemove", moveLens);
+  img.addEventListener("mousemove", moveLens);
+  /* And also for touch screens: */
+  lens.addEventListener("touchmove", moveLens);
+  img.addEventListener("touchmove", moveLens);
+  function moveLens(e) {
+    var pos, x, y;
+    /* Prevent any other actions that may occur when moving over the image */
+    e.preventDefault();
+    /* Get the cursor's x and y positions: */
+    pos = getCursorPos(e);
+    /* Calculate the position of the lens: */
+    x = pos.x - (lens.offsetWidth / 2);
+    y = pos.y - (lens.offsetHeight / 2);
+    /* Prevent the lens from being positioned outside the image: */
+    if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+    if (x < 0) {x = 0;}
+    if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+    if (y < 0) {y = 0;}
+    /* Set the position of the lens: */
+    lens.style.left = x + "px";
+    lens.style.top = y + "px";
+    /* Display what the lens "sees": */
+    result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+  }
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /* Get the x and y positions of the image: */
+    a = img.getBoundingClientRect();
+    /* Calculate the cursor's x and y coordinates, relative to the image: */
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    /* Consider any page scrolling: */
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+}
+// $.ajax({
+//     url: 'https://ap.rdcpix.com/75a6da5564b8c861e904bc96c1421b3el-m245589380o.jpg',
+//     type: 'HEAD',
+//     error: function(err) {
+//         // File isn't found
+//         console.log(err);
+//     },
+//     success: function() {
+//       watermark(['https://ap.rdcpix.com/75a6da5564b8c861e904bc96c1421b3el-m245589380o.jpg'])
+//   .image(watermark.text.lowerRight('myimage', '28px serif', '#fff', 0.5))
+//   .then(function (img) {
+//     document.getElementById('myimage').appendChild(img);
+//   });
+//         // File is found! Do the watermarkage.
+//     }
+// });
+
+imageZoom("myimage", "myresult");
+</script>
+    
+</body>
+</html>

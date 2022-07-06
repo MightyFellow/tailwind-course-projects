@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: 100vh;
+    background-color: blueviolet;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.image-zoom {
+    display: none;
+    border: 1px solid white;
+    height: 90vh;
+    width: 76vw;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.image-zoom>img {
+    object-fit: contain;
+    height: 250%;
+    transform: translate3d(0px,0px,0px);   
+}
+
+.image-group {
+    object-fit: contain;
+    height: 25vh;
+    margin-right: 10px;
+}
